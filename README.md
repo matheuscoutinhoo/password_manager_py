@@ -1,4 +1,4 @@
-# Password Manager
+# Password Manager:
 
 ## This project works as follows:
 - You can create a new, random password with a designation (email, bank account, etc). When this function is executed, a txt document will be created in the folder (in this document the other passwords will be entered).
