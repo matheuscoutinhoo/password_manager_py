@@ -1,5 +1,10 @@
 import random
 from time import sleep
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 
 def generator():
     lower = 'abcdefghijklmnopqrstuvwxyz'
@@ -24,8 +29,45 @@ def save():
     sleep(2)
     print('Your password was successfully saved.')
 
-init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n'))
-access_ID = 'M4STER001'
+def mail_send():
+    try:
+        fromaddr = "your email"
+        toaddr = "recipient's email"
+        msg = MIMEMultipart()
+
+        msg['From'] = fromaddr 
+        msg['To'] = toaddr
+        msg['Subject'] = "passwd"
+
+        body = "\nYour passwords of this time."
+
+        msg.attach(MIMEText(body, 'plain'))
+
+        filename = 'passwords.txt'
+
+        attachment = open('passwords.txt','rb')
+
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload((attachment).read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+
+        msg.attach(part)
+
+        attachment.close()
+
+        server = smtplib.SMTP('smtp.outlook.com', 587) #you can change the email service.
+        server.starttls()
+        server.login(fromaddr, "Your email password.")
+        text = msg.as_string()
+        server.sendmail(fromaddr, toaddr, text)
+        server.quit()
+        print('\nEmail successfully sent.')
+    except:
+        print("\nError while sending the email.")
+
+init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n4 - send your passwords to your email\n'))
+access_ID = 'M4STER001' # You can change this ID.
 
 while True:
     if init == 1:
@@ -35,7 +77,7 @@ while True:
         repeater = input('Do you want to continue? (y/n) ').strip()
         repeater.lower()
         if repeater == 'yes' or repeater == 'y':
-            init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n'))
+            init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n4 - send your passwords to your email\n'))
         else:
             print('Ok, thanks.')
             break
@@ -49,7 +91,7 @@ while True:
             repeater = input('Do you want to continue? (y/n) ').strip()
             repeater.lower()
             if repeater == 'yes' or repeater == 'y':
-                init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n'))
+                init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n4 - send your passwords to your email\n'))
             else:
                 print('Ok, thanks.')
                 break
@@ -64,11 +106,20 @@ while True:
             repeater = input('Do you want to continue? (y/n) ').strip()
             repeater.lower()
             if repeater == 'yes' or repeater == 'y':
-                init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n'))
+                init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n4 - send your passwords to your email\n'))
             else:
                 print('Ok, thanks.')
                 break
         else:
             print("ERROR\nINVALID PASSWORD")
+    elif init == 4:
+        mail_send()
+        repeater = input('Do you want to continue? (y/n) ').strip()
+        repeater.lower()
+        if repeater == 'yes' or repeater == 'y':
+            init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n4 - send your passwords to your email\n'))
+        else:
+            print('Ok, thanks.')
+            break
 
 
