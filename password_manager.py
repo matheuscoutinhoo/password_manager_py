@@ -31,8 +31,8 @@ def save():
 
 def mail_send():
     try:
-        fromaddr = "your email"
-        toaddr = "recipient's email"
+        fromaddr = input('Your email from outlook: ')
+        toaddr = input('The recipients email: ')
         msg = MIMEMultipart()
 
         msg['From'] = fromaddr 
@@ -56,9 +56,10 @@ def mail_send():
 
         attachment.close()
 
-        server = smtplib.SMTP('smtp.outlook.com', 587) #you can change the email service.
+        server = smtplib.SMTP('smtp.outlook.com', 587)
         server.starttls()
-        server.login(fromaddr, "Your email password.")
+        access = input('The password of your email: ')
+        server.login(fromaddr, access)
         text = msg.as_string()
         server.sendmail(fromaddr, toaddr, text)
         server.quit()
@@ -67,7 +68,7 @@ def mail_send():
         print("\nError while sending the email.")
 
 init = int(input('What do you want to do: \n1 - Generate new password\n2 - See your passwords\n3 - Clear document\n4 - send your passwords to your email\n'))
-access_ID = 'M4STER001' # You can change this ID.
+access_ID = 'M4STER001'
 
 while True:
     if init == 1:
