@@ -7,6 +7,6 @@
 
 - You can clean the document if you want with the program.
 
-- And, also, you can send the txt document to your email (for this, remember that you are using the outlook server and that you need to put your account details in the code).
+- And, also, you can send the txt document to your email (for this, remember that you are using the outlook server and that you need to put your account details and of the recipient).
 
 For second and third options, you gonna need to input the password "M4STER001" (You can change this in the code if you want).
